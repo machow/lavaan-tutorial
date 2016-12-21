@@ -4,10 +4,35 @@ description : Insert the chapter description here
 attachments :
   slides_link : https://s3.amazonaws.com/assets.datacamp.com/course/teach/slides_example.pdf
 
+--- type:NormalExercise lang:r xp:100 skills:1 key:06b18ed17b
+## Overview
+
+*** =instructions
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+
+```
+
+*** =solution
+```{r}
+
+```
+
+*** =sct
+```{r}
+
+```
+
 --- type:NormalExercise lang:r xp:100 skills:1 key:2f3ceb3b77
 ## Model syntax
-
-
 
 *** =instructions
 - instruction 1
@@ -22,6 +47,7 @@ attachments :
 
 *** =sample_code
 ```{r}
+
 ```
 
 *** =solution
