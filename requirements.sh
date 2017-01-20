@@ -1,1 +1,1 @@
-apt-get install -y r-cran-xml
+apt-get install -y libxml2-dev
