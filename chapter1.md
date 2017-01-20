@@ -132,6 +132,17 @@ test_mc(4, feedback_msgs = msgs)
 
 *** =pre_exercise_code
 ```{r}
+library(semPlot)
+library(lavaan)
+
+.mod <- ' 
+    visual  =~ x1 + x2 + x3      
+    textual =~ x4 + x5 + x6
+    speed   =~ x7 + x8 + x9 '
+
+semPaths(lavaanify(.mod),
+         residuals = FALSE,
+         fixedStyle = 'black', freeStyle = 'black')
 
 ```
 
@@ -145,16 +156,19 @@ test_mc(4, feedback_msgs = msgs)
 # load the lavaan package (only needed once per session)
 library(lavaan)
 
+# TODO: CUT ---------------------------------------------------
 # specify the model
 HS.model <- ' visual  =~ x1 + x2 + x3      
               textual =~ x4 + x5 + x6
               speed   =~ x7 + x8 + x9 '
+# /CUT --------------------------------------------------------
 
 # fit the model
 fit <- cfa(HS.model, data=HolzingerSwineford1939)
 
 # display summary output
-summary(fit, fit.measures=TRUE)
+library(semPlot)
+semPaths(fit)
 ```
 
 *** =sct
