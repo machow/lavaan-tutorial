@@ -123,11 +123,10 @@ test_mc(4, feedback_msgs = msgs)
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:06b18ed17b
-## Overview
+## CFA model: specification
 
 *** =instructions
 
-![](img/author_image.png)
 
 *** =hint
 
@@ -143,7 +142,19 @@ test_mc(4, feedback_msgs = msgs)
 
 *** =solution
 ```{r}
+# load the lavaan package (only needed once per session)
+library(lavaan)
 
+# specify the model
+HS.model <- ' visual  =~ x1 + x2 + x3      
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9 '
+
+# fit the model
+fit <- cfa(HS.model, data=HolzingerSwineford1939)
+
+# display summary output
+summary(fit, fit.measures=TRUE)
 ```
 
 *** =sct
@@ -152,7 +163,7 @@ test_mc(4, feedback_msgs = msgs)
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:2f3ceb3b77
-## Model syntax
+## CFA model: fitting
 
 *** =instructions
 - instruction 1
@@ -162,7 +173,13 @@ test_mc(4, feedback_msgs = msgs)
 
 *** =pre_exercise_code
 ```{r}
-# You can also prepare your dataset in a specific way in the pre exercise code
+# load the lavaan package (only needed once per session)
+library(lavaan)
+
+# specify the model
+HS.model <- ' visual  =~ x1 + x2 + x3      
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9 '
 ```
 
 *** =sample_code
@@ -172,6 +189,16 @@ test_mc(4, feedback_msgs = msgs)
 
 *** =solution
 ```{r}
+# NOTE: the HS.model has already been defined for you
+
+# fit the model
+fit <- cfa(HS.model, data=HolzingerSwineford1939)
+
+# TODO alternative (e.g. bootstrap)
+
+# display summary output
+summary(fit, fit.measures=TRUE)
+
 ```
 
 *** =sct
