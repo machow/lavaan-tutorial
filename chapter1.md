@@ -9,6 +9,19 @@ attachments :
 ## The big picture: SEM
 
 *** =instructions
+This exercise is just to show you the end goal of this chapter.
+The code creates a structural equation model (SEM) in lavaan.
+It then fits the model to the `PoliticalDemocracy` data (which comes with the library),
+before plotting it.
+
+Feel free to experiment to the code before proceeding.
+
+The exercises in this chapter will cover:
+
+* Lavaan syntax basics
+* Fitting a simple linear model
+* Fitting a confirmatory factor analysis (CFA)
+* Fitting a structural equation model (SEM)
 
 *** =hint
 
@@ -19,7 +32,8 @@ attachments :
 
 *** =sample_code
 ```{r}
-library(lavaan) # only needed once per session
+library(lavaan)
+
 model <- '
   # measurement model
     ind60 =~ x1 + x2 + x3
@@ -341,6 +355,7 @@ test_mc(1, feedback_msgs = msgs)
 
 *** =instructions
 
+* Define `HS.model` to be the CFA on the right, using lavaan syntax.
 
 *** =hint
 
@@ -362,6 +377,17 @@ semPaths(lavaanify(.mod),
 
 *** =sample_code
 ```{r}
+library(lavaan)
+
+# specify the model
+HS.model <- ___
+
+# fit the model
+fit <- cfa(HS.model, data=HolzingerSwineford1939)
+
+# display summary output
+library(semPlot)
+semPaths(fit)
 
 ```
 
