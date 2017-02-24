@@ -79,9 +79,24 @@ semPaths(fit, what='par', edge.color='black', fade=FALSE)
 
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:4718004518
-## Formulas explained
+## Formula operators
+
+There are essentially four basic operators for relating variables in lavaan:
+
+* `a =~ y1`                                - a is measured by y1
+* `a ~ y1 `&nbsp;&nbsp;                    - a is regressed on y1
+* `a ~ 1  `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - the intercept of a
+* `a ~~ y1`                                - the covariance of a and y1
+
+See the [syntax page](http://lavaan.ugent.be/tutorial/syntax1.html) of the official tutorial for further explanation.
 
 *** =instructions
+
+* Run the code to plot each operation.
+
+<br>
+**Note: To run a highlighted block of code, press ctrl+enter.**
+
 
 *** =hint
 
@@ -114,6 +129,80 @@ semPaths(model4, residuals=F)
 *** =solution
 ```{r}
 
+```
+
+*** =sct
+```{r}
+success_msg("Great work! See the [syntax page](http://lavaan.ugent.be/tutorial/syntax1.html) of the official tutorial for more.")
+```
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:473d27be37
+## Formula operators combined
+
+### + operator
+If two parts of a formula have the same left-hand side (LHS), then they can be combined into one line.
+In this case, each piece on the right-hand side RHS is separated by a `+`.
+
+For example, 
+
+```
+g =~ m1
+g =~ m2
+```
+
+Is the same as `g =~ m1 + m2`.
+
+### comments with # #
+
+In a formula, any code after a `#` is a comment (it's not included in the formula).
+
+For example,
+
+```
+a =~ y1    # a is measured by y1
+```
+
+*** =instructions
+
+* plot model1 using `semPaths`
+* fill-in model2 to be the same model in one line, using the `+` operator
+* plot model2 using `semPaths`
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+# model that specifies 3 parameters
+model1 <- "
+    a =~ y1   # a as measured by y1
+    a =~ y2   # a as measured by y2
+    a =~ y3   # a as measured by y3
+"
+semPaths(___, residuals=F)
+
+model2 <- ___
+semPaths(___, residuals=F)
+```
+
+*** =solution
+```{r}
+library(semPlot)
+
+# model that specifies 3 parameters
+model1 <- "
+    a =~ y1   # a as measured by y1
+    a =~ y2   # a as measured by y2
+    a =~ y3   # a as measured by y3
+"
+semPaths(model1, residuals=F)
+
+model2 <- "a =~ y1 + y2 + y3"
+semPaths(model2, residuals=F)
 ```
 
 *** =sct
@@ -375,8 +464,9 @@ test_mc(1, feedback_msgs = msgs)
 
 
 
---- type:NormalExercise lang:r xp:100 skills:1 key:b20514ae47
-## Simple Linear Model
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:2657c5cf42
+## Rewrite this formula
 
 
 
@@ -391,12 +481,198 @@ test_mc(1, feedback_msgs = msgs)
 
 *** =sample_code
 ```{r}
+library(semPlot)
+# model with latent variables visual and textual
+# this model is called a confirmatory factor analysis (CFA)
+model1 <- "
+    visual =~ x1
+    visual =~ x2
+    visual =~ x3
+    
+    textual =~ x4
+    textual =~ x5
+    textual =~ x6
+"
+semPaths(___, residuals=F)
+
+model2 <- ___
+semPaths(___, residuals=F)
+```
+
+*** =solution
+```{r}
+library(semPlot)
+# model with latent variables visual and textual
+# this model is called a confirmatory factor analysis (CFA)
+model1 <- "
+    visual =~ x1
+    visual =~ x2
+    visual =~ x3
+    
+    textual =~ x4
+    textual =~ x5
+    textual =~ x6
+"
+semPaths(model1, residuals=F)
+
+model2 <- "
+    visual =~ x1 + x2 + x3
+    textual =~ x4 + x5 + x6
+"
+semPaths(model2, residuals=F)
+```
+
+*** =sct
+```{r}
+
+```
+--- type:NormalExercise lang:r xp:100 skills:1 key:b20514ae47
+## Simple Linear Model: specification
+
+
+
+*** =instructions
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+library(semPlot)
+model1 <- "
+    ___        # hp regressed on wt
+    ___        # intercept of hp
+"
+semPlot(model1, residuals=F)
+```
+
+*** =solution
+```{r}
+library(semPlot)
+# model with each piece on a separate line
+model1 <- "
+    hp ~ wt        # hp regressed on wt
+    hp ~ 1         # intercept of hp
+"
+
+semPaths(model1, residuals=F)
+```
+
+*** =sct
+```{r}
+
+```
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:b688b6269e
+## Simple Linear Model: fitting
+
+
+*** =instructions
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+library(lavaan)
+
+# same model as prev exercise: hp regressed on wt, with intercept
+model <- "hp ~ 1 + wt"
+
+lm_fit  <-  lm(model,  data = mtcars)  # using R's linear model function 
+lav_fit <- sem(model,  data = mtcars)  # using Lavaan's sem function
+
+# note the similarity of the coefficients
+coef(lm_fit)
+coef(lav_fit)              # will explain hp ~~ hp in next exercise
+
+# Plot
+library(semPlot)
+semPaths(lav_fit, what='par')
+```
+
+*** =solution
+```{r}
+library(lavaan)
+
+# same model as prev exercise: hp regressed on wt, with intercept
+model <- "hp ~ 1 + wt"
+
+lm_fit  <-  lm(model,  data = mtcars)  # using R's linear model function 
+lav_fit <- sem(model,  data = mtcars)  # using Lavaan's sem function
+
+# note the similarity of the coefficients
+coef(lm_fit)
+coef(lav_fit)              # will explain hp ~~ hp in next exercise
+
+# Plot
+library(semPlot)
+semPaths(lav_fit, what='par')
+```
+
+*** =sct
+```{r}
+
+```
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:7316d96fbc
+## Simple Linear Model: expanding to multiple regression
+
+*** =instructions
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+library(lavaan)
+
+# specify model to be hp with intercept, regressed on wt, mpg, and cyl
+model <- ___
+
+lm_fit  <-  lm(model,  data = mtcars)  # using R's linear model function 
+lav_fit <- sem(model,  data = mtcars)  # using Lavaan's sem function
+
+# note the similarity of the coefficients
+coef(lm_fit)
+coef(lav_fit)
+
+# Plot
+library(semPlot)
+semPaths(lav_fit, what='par', edge.color='black')
 
 ```
 
 *** =solution
 ```{r}
+library(lavaan)
 
+# specify model to be hp with intercept, regressed on wt, mpg, and cyl
+model <- "hp ~ 1 + wt + mpg + cyl"
+
+lm_fit  <-  lm(model,  data = mtcars)  # using R's linear model function 
+lav_fit <- sem(model,  data = mtcars)  # using Lavaan's sem function
+
+# note the similarity of the coefficients
+coef(lm_fit)
+coef(lav_fit)
+
+# Plot
+library(semPlot)
+semPaths(lm_fit, "est", fade=FALSE)
+semPaths(lav_fit, "est", fade=FALSE)
 ```
 
 *** =sct
