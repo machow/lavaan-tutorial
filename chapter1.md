@@ -700,7 +700,7 @@ library(lavaan)
 
 semPaths(lavaanify(.mod),
          residuals = FALSE,
-         fixedStyle = 'black', freeStyle = 'black')
+         fixedStyle = 'black', freeStyle = 'black', nCharNodes = 0)
 
 ```
 
@@ -711,12 +711,9 @@ library(lavaan)
 # specify the model
 HS.model <- ___
 
-# fit the model
-fit <- cfa(HS.model, data=HolzingerSwineford1939)
-
 # display summary output
 library(semPlot)
-semPaths(fit)
+semPaths(HS.model)
 
 ```
 
@@ -732,12 +729,9 @@ HS.model <- ' visual  =~ x1 + x2 + x3
               speed   =~ x7 + x8 + x9 '
 # /CUT --------------------------------------------------------
 
-# fit the model
-fit <- cfa(HS.model, data=HolzingerSwineford1939)
-
 # display summary output
 library(semPlot)
-semPaths(fit)
+semPaths(HS.model)
 ```
 
 *** =sct
