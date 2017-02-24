@@ -1,3 +1,3 @@
 ---
-title       : Insert the chapter title here
+title       : Advanced fitting and inspection
 description : Insert the chapter description here

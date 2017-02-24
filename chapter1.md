@@ -679,6 +679,7 @@ semPaths(lav_fit, "est", fade=FALSE)
 ```{r}
 
 ```
+
 --- type:NormalExercise lang:r xp:100 skills:1 key:06b18ed17b
 ## CFA model: specification
 
@@ -722,12 +723,10 @@ semPaths(HS.model)
 # load the lavaan package (only needed once per session)
 library(lavaan)
 
-# TODO: CUT ---------------------------------------------------
 # specify the model
 HS.model <- ' visual  =~ x1 + x2 + x3      
               textual =~ x4 + x5 + x6
               speed   =~ x7 + x8 + x9 '
-# /CUT --------------------------------------------------------
 
 # display summary output
 library(semPlot)
@@ -743,7 +742,12 @@ semPaths(HS.model)
 ## CFA model: fitting
 
 *** =instructions
-- instruction 1
+
+Fill in the blank for the second `cfa` call.
+
+- Add an argument so the latent variables are **orthogonal**.
+- Add an argument so the latent variables are **standardized**.
+- Look at the coefficients of each fit--how do they differ?
 
 *** =hint
 - hint 1
@@ -752,7 +756,7 @@ semPaths(HS.model)
 ```{r}
 # load the lavaan package (only needed once per session)
 library(lavaan)
-
+library(semPlot)
 # specify the model
 HS.model <- ' visual  =~ x1 + x2 + x3      
               textual =~ x4 + x5 + x6
@@ -761,21 +765,33 @@ HS.model <- ' visual  =~ x1 + x2 + x3
 
 *** =sample_code
 ```{r}
+# We've already loaded semPlot and lavaan
+# HS.model is already defined for you
+fit <- cfa(HS.model, data=HolzingerSwineford1939)
+coef(fit)
+semPaths(fit)
+
+# Fit orthogonal, and standardized latent variables
+std_fit <- cfa(___)
+coef(std_fit)
+semPaths(std_fit)
 
 ```
 
 *** =solution
 ```{r}
-# NOTE: the HS.model has already been defined for you
-
-# fit the model
+# We've already loaded semPlot and lavaan
+# HS.model is already defined for you
 fit <- cfa(HS.model, data=HolzingerSwineford1939)
+coef(fit)
+semPaths(fit)
 
-# TODO alternative (e.g. bootstrap)
-
-# display summary output
-summary(fit, fit.measures=TRUE)
-
+# Fit orthogonal, and standardized latent variables
+std_fit <- cfa(HS.model, data=HolzingerSwineford1939,
+               orthogonal = TRUE,
+               std.lv = TRUE)
+coef(std_fit)
+semPaths(std_fit)
 ```
 
 *** =sct
@@ -792,14 +808,38 @@ summary(fit, fit.measures=TRUE)
 
 *** =pre_exercise_code
 ```{r}
+library(semPlot)
+.model <- '
+  # measurement model
+    ind60 =~ x1 + x2 + x3
+    dem60 =~ y1 + y2 + y3 + y4
+    dem65 =~ y5 + y6 + y7 + y8
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y4 + y6
+    y3 ~~ y7
+    y4 ~~ y8
+    y6 ~~ y8
+'
 
+semPaths(.model, 
+         residuals = FALSE,
+         sizeLat = c(10,10),
+         fixedStyle = 'black', freeStyle = 'black', nCharNodes = 0)
+
+rm(.model)
 ```
 
 *** =sample_code
 ```{r}
-library(lavaan) # only needed once per session
 
-# TODO: CUT ---------------------------------------------
+```
+
+*** =solution
+```{r}
 model <- '
   # measurement model
     ind60 =~ x1 + x2 + x3
@@ -815,19 +855,24 @@ model <- '
     y4 ~~ y8
     y6 ~~ y8
 '
-# /CUT -------------------------------------------------
 
-fit <- sem(model, data=PoliticalDemocracy)
-summary(fit, standardized=TRUE)
-```
-
-*** =solution
-```{r}
-
+library(semPlot)
+semPaths(model, residuals=FALSE)
 ```
 
 *** =sct
 ```{r}
+
+# crazy success msg
+success_msg("Great job! To make the plot identical to the first one, use
+```
+semPaths(model, 
+         residuals = FALSE,
+         sizeLat = c(10,10),
+         fixedStyle = 'black', freeStyle = 'black', nCharNodes = 0)
+```
+")
+# / crazy success msg
 
 ```
 
@@ -837,16 +882,14 @@ summary(fit, standardized=TRUE)
 
 *** =instructions
 
+- rather than setting `std.lv` when fitting the model, pass `standardize = TRUE` to the `summary` function.
+
 *** =hint
 
 *** =pre_exercise_code
 ```{r}
-
-```
-
-*** =sample_code
-```{r}
 library(lavaan) # only needed once per session
+library(semPlot)
 model <- '
   # measurement model
     ind60 =~ x1 + x2 + x3
@@ -862,13 +905,32 @@ model <- '
     y4 ~~ y8
     y6 ~~ y8
 '
+```
+
+*** =sample_code
+```{r}
+# We've already loaded lavaan and semPlot for you
+# We've already defined the model for you
 fit <- sem(model, data=PoliticalDemocracy)
-summary(fit, standardized=TRUE)
+
+# Modify so results are standardized
+summary(fit)
+
+# Modify so it plots the standardized results
+semPaths(fit, what='est', fade=F, residuals=F, edge.color = 'black')
 ```
 
 *** =solution
 ```{r}
+# We've already loaded lavaan and semPlot for you
+# We've already defined the model for you
+fit <- sem(model, data=PoliticalDemocracy)
 
+# Modify so results are standardized
+summary(fit, standardize = TRUE)
+
+# Modify so it plots the standardized results
+semPaths(fit, what='std', fade=F, residuals=F, edge.color = 'black')
 ```
 
 *** =sct
