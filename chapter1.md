@@ -8,13 +8,12 @@ attachments :
 --- type:NormalExercise lang:r xp:100 skills:1 key:7d4656bf0c
 ## The big picture: SEM
 
-*** =instructions
-This exercise is just to show you the end goal of this chapter.
-The code creates a structural equation model (SEM) in lavaan.
-It then fits the model to the `PoliticalDemocracy` data (which comes with the library),
+This chapter will teach you the basics of structural equation modelling (SEM) with the Lavaan library.
+The code on the right specifies an SEM in lavaan.
+It then fits the model to the `PoliticalDemocracy` data (which comes with the Lavaan),
 before plotting it.
 
-Feel free to experiment to the code before proceeding.
+Feel free to experiment with the code before proceeding.
 
 The exercises in this chapter will cover:
 
@@ -22,6 +21,12 @@ The exercises in this chapter will cover:
 * Fitting a simple linear model
 * Fitting a confirmatory factor analysis (CFA)
 * Fitting a structural equation model (SEM)
+
+**Note: Try doing each exercise on your own, before referring to the official [lavaan tutorial](http://lavaan.ugent.be/tutorial/) for help.**
+
+*** =instructions
+
+* Just hit Submit Answer!
 
 *** =hint
 
@@ -34,6 +39,7 @@ The exercises in this chapter will cover:
 ```{r}
 library(lavaan)
 
+# Specify structural equation model (SEM)
 model <- '
   # measurement model
     ind60 =~ x1 + x2 + x3
@@ -49,12 +55,16 @@ model <- '
     y4 ~~ y8
     y6 ~~ y8
 '
+
+# Fit model to PoliticalDemocracy data
 fit <- sem(model, data=PoliticalDemocracy)
+
+# Summarize fitted model parameters
 summary(fit, standardized=TRUE)
 
-# plot graph of model
+# Plot graph of model
 library(semPlot)
-semPaths(fit)
+semPaths(fit, what='par', edge.color='black', fade=FALSE)
 ```
 
 *** =solution
@@ -67,6 +77,49 @@ semPaths(fit)
 
 ```
 
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:4718004518
+## Formulas explained
+
+*** =instructions
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+library(semPlot)
+
+# a is a latent variable, measured by y1
+model1 <- "a =~ y1"
+semPaths(model1, residuals=F)
+
+# a is regressed on y1
+model2 <- "a ~ y1"
+semPaths(model2, residuals=F)
+
+# the intercept of a
+model3 <- "a ~ 1"
+semPaths(model3, residuals=F)
+
+# a covaries (e.g. is correlated) with y1
+model4 <- "a ~~ y1"
+semPaths(model4, residuals=F)
+```
+
+*** =solution
+```{r}
+
+```
+
+*** =sct
+```{r}
+
+```
 --- type:MultipleChoiceExercise lang:r xp:50 skills:1 key:6ece34460c
 ## Describe this formula (1)
 
