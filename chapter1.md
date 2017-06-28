@@ -83,10 +83,10 @@ semPaths(fit, what='par', edge.color='black', fade=FALSE)
 
 There are essentially four basic operators for relating variables in lavaan:
 
-* `a =~ y1`                                - a is measured by y1
-* `a ~ y1 `&nbsp;&nbsp;                    - a is regressed on y1
-* `a ~ 1  `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  - the intercept of a
-* `a ~~ y1`                                - the covariance of a and y1
+* `a =~ y1`                                : a is measured by y1
+* `a ~ y1 `                      : a is regressed on y1
+* `a ~ 1  `       : the intercept of a
+* `a ~~ y1`                                : the covariance of a and y1
 
 See the [syntax page](http://lavaan.ugent.be/tutorial/syntax1.html) of the official tutorial for further explanation.
 
@@ -185,6 +185,7 @@ model1 <- "
 "
 semPaths(___, residuals=F)
 
+# rewrite above model using + operator
 model2 <- ___
 semPaths(___, residuals=F)
 ```
@@ -201,6 +202,7 @@ model1 <- "
 "
 semPaths(model1, residuals=F)
 
+# rewrite above model using + operator
 model2 <- "a =~ y1 + y2 + y3"
 semPaths(model2, residuals=F)
 ```
