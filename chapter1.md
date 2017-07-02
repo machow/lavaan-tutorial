@@ -526,7 +526,11 @@ semPaths(model2, residuals=F)
 
 *** =sct
 ```{r}
+library(testwhat.ext)
+ex() %>% check_lav_uses('model2', lhs = 'visual')
 
+ex() %>% check_lav_match('model2', lhs = 'visual')
+ex() %>% check_lav_match('model2', lhs = 'textual')
 ```
 --- type:NormalExercise lang:r xp:100 skills:1 key:b20514ae47
 ## Simple Linear Model: specification
