@@ -209,7 +209,13 @@ semPaths(model2, residuals=F)
 
 *** =sct
 ```{r}
+library(testwhat.ext)
 
+ex() %>% check_object('model2') %>% {
+    check_expr(., 'class(model2)') %>% check_result() %>% check_equal()
+    check_expr(., 'grepl("\\\\+", model2)') %>% check_result() %>% check_equal()
+}
+ex() %>% check_lav_match('model1', lhs = 'a')
 ```
 --- type:MultipleChoiceExercise lang:r xp:50 skills:1 key:6ece34460c
 ## Describe this formula (1)
