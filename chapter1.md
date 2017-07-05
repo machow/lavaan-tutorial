@@ -202,7 +202,7 @@ model1 <- "
 "
 semPaths(model1, residuals=F)
 
-# rewrite above model using + operator
+# rewrite above model using + operator, add a comment
 model2 <- "a =~ y1 + y2 + y3"
 semPaths(model2, residuals=F)
 ```
@@ -218,6 +218,7 @@ test_cre <- function(state, expr, msg) {
 ex() %>% check_object('model2') %>% {
     check_expr(., 'class(model2)') %>% check_result() %>% check_equal()
     test_cre(., 'grepl("\\\\+", model2)', "Did you add a `+` to your `model2` formula?")
+    test_cre(., 'grepl("#", model2)', "Did you add a comment with `#` to your `model2` formula?")
 }
 
 ex() %>% check_lav_match('model1', lhs = 'a')
