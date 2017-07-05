@@ -211,10 +211,15 @@ semPaths(model2, residuals=F)
 ```{r}
 library(testwhat.ext)
 
+test_cre <- function(state, expr, msg) {
+    check_expr(state, 'grepl("\\\\+", model2)') %>% check_result() %>% check_equal(incorrect_msg = msg)
+}
+
 ex() %>% check_object('model2') %>% {
     check_expr(., 'class(model2)') %>% check_result() %>% check_equal()
-    check_expr(., 'grepl("\\\\+", model2)') %>% check_result() %>% check_equal()
+    test_cre(., 'grepl("\\\\+", model2)', "Did you add a `+` to your `model2` formula?")
 }
+
 ex() %>% check_lav_match('model1', lhs = 'a')
 ```
 --- type:MultipleChoiceExercise lang:r xp:50 skills:1 key:6ece34460c
